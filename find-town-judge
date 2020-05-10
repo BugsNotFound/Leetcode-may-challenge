@@ -1,0 +1,42 @@
+class Solution {
+public:
+    int findJudge(int N, vector<vector<int>>& trust) {
+        if(trust.size()==0) return 1;
+        unordered_map<int, char> um;
+        unordered_map<int, int> count;
+        //the person who trust any other person is given color 'g'
+        //the person who receives trust of other person and also gives trust is given' b'
+        //the person who receives trust of other person but doesn't give trust is given 'r'
+        //int stores the count of people a person gets trust from
+        
+        for(auto &x: trust){
+            if(!um.count(x[0])){
+                um[x[0]] = 'g';
+            }
+            else if(um[x[0]]=='r'){
+                um[x[0]] = 'b';
+            }
+            
+            
+            
+            if(um.count(x[1]) == 0){
+                um[x[1]] = 'r';
+            }
+            if(um[x[1]] == 'g'){
+                x[1] = 'b';
+            }
+            
+            count[x[1]]++;
+        }
+        
+    
+        int answer;
+        for(int i=1; i<=N; i++){
+            if(count.count(i) && count[i]==N-1){
+                if(um[i]=='r')  return i;
+            }
+        }
+        
+        return -1;
+    }
+};
