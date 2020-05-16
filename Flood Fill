@@ -1,0 +1,35 @@
+class Solution {
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+        
+        vector<vector<bool>> visited(image.size(), vector<bool>(image[0].size(), false));
+        
+        int orig = image[sr][sc];
+        queue<pair<int, int>> Q;
+        Q.push({sr, sc});
+        visited[sr][sc] = true;
+        
+        
+        
+        vector<vector<int>> neighbors = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        
+        while(!Q.empty()){
+            pair<int, int> fr = Q.front();
+            image[fr.first][fr.second] = newColor;
+            Q.pop();
+            
+            for(auto &x: neighbors){
+                int newRow = fr.first + x[0];
+                int newCol = fr.second + x[1];
+                
+                
+                if(newRow >=0 && newRow < image.size() && newCol >=0 && newCol < image[0].size() && !visited[newRow][newCol] && image[newRow][newCol] == orig){
+                    Q.push({newRow, newCol});
+                    visited[newRow][newCol] = true;
+                }
+            }
+        }
+        
+        return image;
+    }
+};
